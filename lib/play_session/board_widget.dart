@@ -23,19 +23,24 @@ class _BoardWidgetState extends State<BoardWidget> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 20,
-            runSpacing: 20,
-            children: [
-              PlayingAreaWidget(boardState.areaOne),
-              PlayingAreaWidget(boardState.areaTwo),
-            ],
-          ),
+        PlayerHandWidget(
+          player: boardState.secondPlayer,
         ),
-        PlayerHandWidget(),
+        // Padding(
+        //   padding: const EdgeInsets.all(10),
+        //   child: Wrap(
+        //     alignment: WrapAlignment.center,
+        //     spacing: 20,
+        //     runSpacing: 20,
+        //     children: [
+        PlayingAreaWidget(boardState.playingArea),
+        //       PlayingAreaWidget(boardState.areaTwo),
+        //     ],
+        //   ),
+        // ),
+        PlayerHandWidget(
+          player: boardState.firstPlayer,
+        ),
       ],
     );
   }

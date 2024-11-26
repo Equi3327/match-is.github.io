@@ -2,30 +2,53 @@ import 'package:flutter/foundation.dart';
 
 import 'player.dart';
 import 'playing_area.dart';
+import 'playing_card.dart';
 
 class BoardState {
+  /// Added this line for max cards in deck
+  static const maxCards = 20;
+
   final VoidCallback onWin;
 
-  final PlayingArea areaOne = PlayingArea();
+  // final PlayingArea areaOne = PlayingArea();
 
-  final PlayingArea areaTwo = PlayingArea();
+  // final PlayingArea areaTwo = PlayingArea();
+  final PlayingArea playingArea = PlayingArea();
 
-  final Player player = Player();
+  /// Deck of cards
+  final List<PlayingCard> deck =
+      List.generate(maxCards, (index) => PlayingCard.random());
+
+  ///
+  // final Player firstPlayer = Player();
+  // final Player secondPlayer = Player();
+  late final Player firstPlayer;
+  late final Player secondPlayer;
 
   BoardState({required this.onWin}) {
-    player.addListener(_handlePlayerChange);
+    deck.shuffle();
+    // firstPlayer.hand = deck.sublist(0, maxCards~/2);
+    // secondPlayer.hand = deck.sublist(maxCards~/2, maxCards);
+    firstPlayer = Player(
+      hand: deck.sublist(0, maxCards ~/ 2),
+    );
+    secondPlayer = Player(
+      hand: deck.sublist(maxCards ~/ 2, maxCards),
+    );
+    firstPlayer.addListener(_handlePlayerChange);
+    secondPlayer.addListener(_handlePlayerChange);
   }
 
-  List<PlayingArea> get areas => [areaOne, areaTwo];
+  PlayingArea get areas => playingArea;
 
   void dispose() {
-    player.removeListener(_handlePlayerChange);
-    areaOne.dispose();
-    areaTwo.dispose();
+    firstPlayer.removeListener(_handlePlayerChange);
+    secondPlayer.removeListener(_handlePlayerChange);
+    playingArea.dispose();
   }
 
   void _handlePlayerChange() {
-    if (player.hand.isEmpty) {
+    if (firstPlayer.hand.isEmpty || secondPlayer.hand.isEmpty) {
       onWin();
     }
   }
