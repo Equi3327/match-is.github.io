@@ -19,6 +19,7 @@ class _BoardWidgetState extends State<BoardWidget> {
   Widget build(BuildContext context) {
     final boardState = context.watch<BoardState>();
     debugPrint("_BoardWidgetState players ${boardState.players.first} :: ${boardState.players.last}");
+    debugPrint("_BoardWidgetState currentPlayer ${boardState.currentPlayer} ");
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -36,7 +37,7 @@ class _BoardWidgetState extends State<BoardWidget> {
         //     runSpacing: 20,
         //     children: [
         PlayingAreaWidget(boardState.playingArea,
-          currentPlayer: boardState.currentPlayer,
+          // currentPlayer: boardState.currentPlayer,
         ),
         //       PlayingAreaWidget(boardState.areaTwo),
         //     ],

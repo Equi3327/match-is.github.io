@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'game_internals/score.dart';
 import 'main_menu/main_menu_screen.dart';
+import 'my_new_changes/my_play_session/my_play_session_screen.dart';
 import 'play_session/play_session_screen.dart';
 import 'settings/settings_screen.dart';
 import 'style/my_transition.dart';
@@ -23,7 +24,10 @@ final router = GoRouter(
           pageBuilder: (context, state) => buildMyTransition<void>(
             key: ValueKey('play'),
             color: context.watch<Palette>().backgroundPlaySession,
-            child: const PlaySessionScreen(
+            // child: const PlaySessionScreen(
+            //   key: Key('level selection'),
+            // ),
+            child: const MyPlaySessionScreen(
               key: Key('level selection'),
             ),
           ),

@@ -43,10 +43,10 @@ class PlayingCard  extends Equatable {
   //       'value': value,
   //     };
 
-  @override
-  String toString() {
-    return '${suit.internalRepresentation}${suitColor.internalRepresentation}';
-  }
+  // @override
+  // String toString() {
+  //   return '${suit.internalRepresentation}${suitColor.internalRepresentation}';
+  // }
 
   @override
   List<Object> get props => [suit,suitColor];

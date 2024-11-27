@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:match_is/my_new_changes/bloc/my_board_bloc/my_board_bloc.dart';
+import 'package:match_is/my_new_changes/models/my_player.dart';
 import 'package:provider/provider.dart';
 
 import '../audio/audio_controller.dart';
 import '../audio/sounds.dart';
+import '../game_internals/playing_card.dart';
 import '../settings/settings.dart';
 import '../style/my_button.dart';
 import '../style/palette.dart';
@@ -41,6 +45,24 @@ class MainMenuScreen extends StatelessWidget {
             MyButton(
               onPressed: () {
                 audioController.playSfx(SfxType.buttonTap);
+                final List<PlayingCard> deck =
+                    List.generate(MAX_CARDS, (index) => PlayingCard.random());
+                BlocProvider.of<MyBoardBloc>(context).add(
+                  AddPlayersAndDeck(
+                    players: [
+                      MyPlayer(
+                        playerName: MyGamePlayer.player1,
+                        hand: deck.sublist(0, MAX_CARDS ~/ 2),
+                        // canMove: true,
+                      ),
+                      MyPlayer(
+                        playerName: MyGamePlayer.player2,
+                        hand: deck.sublist(MAX_CARDS ~/ 2, MAX_CARDS),
+                        // canMove: false,
+                      )
+                    ],
+                  ),
+                );
                 GoRouter.of(context).go('/play');
               },
               child: const Text('Play'),

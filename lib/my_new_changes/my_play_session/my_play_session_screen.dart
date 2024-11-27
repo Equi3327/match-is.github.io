@@ -1,33 +1,24 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logging/logging.dart' hide Level;
+import 'package:logging/logging.dart';
+import 'package:match_is/my_new_changes/bloc/my_board_bloc/my_board_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../audio/audio_controller.dart';
-import '../audio/sounds.dart';
-import '../game_internals/board_state.dart';
-import '../game_internals/score.dart';
-import '../style/confetti.dart';
-import '../style/my_button.dart';
-import '../style/palette.dart';
-import 'board_widget.dart';
+import '../../style/confetti.dart';
+import '../../style/my_button.dart';
+import '../../style/palette.dart';
+import 'my_board_widget.dart';
 
-/// This widget defines the entirety of the screen that the player sees when
-/// they are playing a level.
-///
-/// It is a stateful widget because it manages some state of its own,
-/// such as whether the game is in a "celebration" state.
-class PlaySessionScreen extends StatefulWidget {
-  const PlaySessionScreen({super.key});
+class MyPlaySessionScreen extends StatefulWidget {
+  const MyPlaySessionScreen({super.key});
 
   @override
-  State<PlaySessionScreen> createState() => _PlaySessionScreenState();
+  State<MyPlaySessionScreen> createState() => _MyPlaySessionScreenState();
 }
 
-class _PlaySessionScreenState extends State<PlaySessionScreen> {
-  static final _log = Logger('PlaySessionScreen');
+class _MyPlaySessionScreenState extends State<MyPlaySessionScreen> {
+  static final _log = Logger('MyPlaySessionScreen');
 
   static const _celebrationDuration = Duration(milliseconds: 2000);
 
@@ -37,7 +28,11 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
 
   late DateTime _startOfPlay;
 
-  late final BoardState _boardState;
+  @override
+  void initState() {
+    super.initState();
+    _startOfPlay = DateTime.now();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +66,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                 ),
                 const Spacer(),
                 // The actual UI of the game.
-                BoardWidget(),
+                const MyBoardWidget(),
                 // Text("Drag cards to the two areas above."),
                 const Spacer(),
                 Padding(
@@ -97,45 +92,5 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _boardState.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _startOfPlay = DateTime.now();
-    _boardState = BoardState(onWin: _playerWon);
-  }
-
-  Future<void> _playerWon() async {
-    _log.info('Player won');
-
-    // TODO: replace with some meaningful score for the card game
-    final score = Score(1, 1, DateTime.now().difference(_startOfPlay));
-
-    // final playerProgress = context.read<PlayerProgress>();
-    // playerProgress.setLevelReached(widget.level.number);
-
-    // Let the player see the game just after winning for a bit.
-    await Future<void>.delayed(_preCelebrationDuration);
-    if (!mounted) return;
-
-    setState(() {
-      _duringCelebration = true;
-    });
-
-    final audioController = context.read<AudioController>();
-    audioController.playSfx(SfxType.congrats);
-
-    /// Give the player some time to see the celebration animation.
-    await Future<void>.delayed(_celebrationDuration);
-    if (!mounted) return;
-
-    GoRouter.of(context).go('/play/won', extra: {'score': score});
   }
 }

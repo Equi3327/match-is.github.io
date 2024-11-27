@@ -4,7 +4,7 @@ import 'player.dart';
 import 'playing_area.dart';
 import 'playing_card.dart';
 
-class BoardState{
+class BoardState extends ChangeNotifier{
   /// Added this line for max cards in deck
   static const maxCards = 20;
 
@@ -34,23 +34,15 @@ class BoardState{
         // canMove: false,
       )
     ]);
-    // players.forEach((player) {
-    //   player.addListener((){
-    //     _handlePlayerChange(player);
-    //   });
-    // });
     currentPlayer = players.first; //firstPlayer;
     currentPlayer.canMove = true;
-    debugPrint("initializing currentPlayer $currentPlayer");
-    debugPrint("initializing players.first ${players.first}");
-    // firstPlayer.addListener(_handlePlayerChange);
-    // secondPlayer.addListener(_handlePlayerChange);
     // currentPlayer.addListener(_handlePlayerChange);
   }
 
-  PlayingArea get areas => playingArea;
+  // PlayingArea get area => playingArea;
 
   void dispose() {
+    // currentPlayer.removeListener(_handlePlayerChange);
     // firstPlayer.removeListener(_handlePlayerChange);
     // secondPlayer.removeListener(_handlePlayerChange);
     // players.forEach((player) {
@@ -61,8 +53,8 @@ class BoardState{
     playingArea.dispose();
   }
 
-  void _handlePlayerChange(Player player) {
-    debugPrint("player ___ handlePlayerChange --------- player $player");
+  void _handlePlayerChange() {
+    // debugPrint("player ___ handlePlayerChange --------- player $player");
     if (currentPlayer.hand.isEmpty) {
       onWin();
       // return;
@@ -73,7 +65,7 @@ class BoardState{
       currentPlayer = players[nextPlayerIndex];
       currentPlayer.canMove = !currentPlayer.canMove;
       debugPrint("changing......changing canMove to True.for other player...... currentPlayer $currentPlayer");
-      // currentPlayer.notifyListeners();
+      notifyListeners();
       // currentPlayer.notifyListeners();
     }
     // debugPrint("_handlePlayerChange currentPlayer ${currentPlayer.hand.length}");

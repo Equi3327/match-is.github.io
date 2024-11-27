@@ -1,0 +1,89 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../audio/audio_controller.dart';
+import '../../audio/sounds.dart';
+import '../../game_internals/playing_card.dart';
+import '../../style/palette.dart';
+import '../models/my_player.dart';
+
+class MyPlayingCardWidget extends StatelessWidget {
+  const MyPlayingCardWidget({super.key, required this.card, this.player});
+  static const double width = 64;
+
+  static const double height = 89;
+
+  final PlayingCard card;
+
+  final MyPlayer? player;
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.watch<Palette>();
+    // final textColor =
+    //     card.suit.color == CardSuitColor.red ? palette.redPen : palette.ink;
+
+    // final cardWidget = DefaultTextStyle(
+    //   style: Theme.of(context).textTheme.bodyMedium!.apply(color: textColor),
+    //   child: Container(
+    //     width: width,
+    //     height: height,
+    //     decoration: BoxDecoration(
+    //       color: palette.trueWhite,
+    //       border: Border.all(color: palette.ink),
+    //       borderRadius: BorderRadius.circular(5),
+    //     ),
+    //     child: Center(
+    //       child: Text('${card.suit.asCharacter}\n${card.value}',
+    //           textAlign: TextAlign.center),
+    //     ),
+    //   ),
+    // );
+    final cardWidget = Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        image:  DecorationImage(image: AssetImage("assets/my_assets/${card.suit.internalRepresentation}_${card.suitColor.internalRepresentation}.png")),
+        color: palette.trueWhite,
+        border: Border.all(color: palette.ink),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      // child: Center(
+      //   child: Text('${card.suit.asCharacter}\n${card.value}',
+      //       textAlign: TextAlign.center),
+      // ),
+    );
+
+    /// Cards that aren't in a player's hand are not draggable.
+    if (player == null) return cardWidget;
+
+    return Draggable(
+      feedback: Transform.rotate(
+        angle: 0.1,
+        child: cardWidget,
+      ),
+      data: MyPlayingCardDragData(card, player!),
+      childWhenDragging: Opacity(
+        opacity: 0.5,
+        child: cardWidget,
+      ),
+      onDragStarted: () {
+        final audioController = context.read<AudioController>();
+        audioController.playSfx(SfxType.huhsh);
+      },
+      onDragEnd: (details) {
+        final audioController = context.read<AudioController>();
+        audioController.playSfx(SfxType.wssh);
+      },
+      child: cardWidget,
+    );
+  }
+}
+
+@immutable
+class MyPlayingCardDragData {
+  final PlayingCard card;
+
+  final MyPlayer holder;
+
+  const MyPlayingCardDragData(this.card, this.holder);
+}
