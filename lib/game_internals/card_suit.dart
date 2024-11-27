@@ -41,7 +41,7 @@ enum CardSuit {
 }
 
 enum CardSuitColor {
-  black("black"),
+  // black("black"),
   red("red");
 
   final String internalRepresentation;

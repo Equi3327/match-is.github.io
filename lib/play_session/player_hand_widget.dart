@@ -6,8 +6,9 @@ import '../game_internals/player.dart';
 import 'playing_card_widget.dart';
 
 class PlayerHandWidget extends StatelessWidget {
-  const PlayerHandWidget({super.key, required this.player});
+  const PlayerHandWidget({super.key, required this.player, /*required this.playerTurn*/});
   final Player player;
+  // final bool playerTurn;
   @override
   Widget build(BuildContext context) {
     // final boardState = context.watch<BoardState>();
@@ -15,7 +16,7 @@ class PlayerHandWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: ConstrainedBox(
-        constraints: BoxConstraints(minHeight: PlayingCardWidget.height),
+        constraints: const BoxConstraints(minHeight: PlayingCardWidget.height),
         child: ListenableBuilder(
           // Make sure we rebuild every time there's an update
           // to the player's hand.
@@ -27,7 +28,9 @@ class PlayerHandWidget extends StatelessWidget {
               runSpacing: 10,
               children: [
                 ...player.hand.map((card) =>
-                    PlayingCardWidget(card, player: player)),
+                    PlayingCardWidget(card, player: player,
+                      // canBeRemoved: playerTurn,
+                    )),
               ],
             );
           },

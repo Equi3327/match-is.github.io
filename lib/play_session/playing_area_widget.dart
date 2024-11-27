@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../audio/audio_controller.dart';
 import '../audio/sounds.dart';
+import '../game_internals/player.dart';
 import '../game_internals/playing_area.dart';
 import '../game_internals/playing_card.dart';
 import '../style/palette.dart';
@@ -13,7 +14,8 @@ import 'playing_card_widget.dart';
 class PlayingAreaWidget extends StatefulWidget {
   final PlayingArea area;
 
-  const PlayingAreaWidget(this.area, {super.key});
+  const PlayingAreaWidget(this.area, {super.key, required this.currentPlayer});
+  final Player currentPlayer;
 
   @override
   State<PlayingAreaWidget> createState() => _PlayingAreaWidgetState();
@@ -25,7 +27,7 @@ class _PlayingAreaWidgetState extends State<PlayingAreaWidget> {
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
-
+    debugPrint("PlayingAreaWidget currentPlayer ${widget.currentPlayer}");
     return LimitedBox(
       maxHeight: 200,
       child: AspectRatio(
@@ -65,8 +67,19 @@ class _PlayingAreaWidgetState extends State<PlayingAreaWidget> {
   }
 
   void _onDragAccept(PlayingCardDragData data) {
+    // debugPrint("PlayingAreaWidget currentPlayer ${widget.currentPlayer}");
+    // debugPrint("PlayingAreaWidget PlayingCardDragData holder${data.holder}");
+    // if (widget.currentPlayer != data.holder) {
+    //   // debugPrint("PlayingAreaWidget PlayingCardDragData widget.currentPlayer != data.holder");
+    //   // throw Exception("It's not this player's turn!");
+    //   return;
+    // }
+    // widget.area.playerChanges;
+    debugPrint("+++++++++++++++++++++++++++++++");
     widget.area.acceptCard(data.card);
     data.holder.removeCard(data.card);
+    // widget.currentPlayer =
+    // debugPrint("PlayingAreaWidget holderremoveCard${data.holder}");
     setState(() => isHighlighted = false);
   }
 
@@ -75,7 +88,7 @@ class _PlayingAreaWidgetState extends State<PlayingAreaWidget> {
   }
 
   bool _onDragWillAccept(PlayingCardDragData? data) {
-    if (data == null) return false;
+    if (data == null /*|| widget.currentPlayer != data.holder*/) return false;
     setState(() => isHighlighted = true);
     return true;
   }
@@ -111,7 +124,9 @@ class _CardStack extends StatelessWidget {
               Positioned(
                 top: i * _topOffset,
                 left: i * _leftOffset,
-                child: PlayingCardWidget(cards[i]),
+                child: PlayingCardWidget(cards[i],
+                  // canBeRemoved: false,
+                ),
               ),
           ],
         ),

@@ -17,7 +17,9 @@ class PlayingCardWidget extends StatelessWidget {
 
   final Player? player;
 
-  const PlayingCardWidget(this.card, {this.player, super.key});
+  // final bool canBeRemoved;
+
+  const PlayingCardWidget(this.card, {this.player, super.key, /*required this.canBeRemoved*/});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,7 @@ class PlayingCardWidget extends StatelessWidget {
     );
 
     /// Cards that aren't in a player's hand are not draggable.
-    if (player == null) return cardWidget;
+    if (player == null /*&& !canBeRemoved*/) return cardWidget;
 
     return Draggable(
       feedback: Transform.rotate(

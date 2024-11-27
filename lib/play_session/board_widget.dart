@@ -18,13 +18,15 @@ class _BoardWidgetState extends State<BoardWidget> {
   @override
   Widget build(BuildContext context) {
     final boardState = context.watch<BoardState>();
-
+    debugPrint("_BoardWidgetState players ${boardState.players.first} :: ${boardState.players.last}");
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         PlayerHandWidget(
-          player: boardState.secondPlayer,
+          player: boardState.players.last,
+          // playerTurn: boardState.currentPlayer == boardState.secondPlayer,
+
         ),
         // Padding(
         //   padding: const EdgeInsets.all(10),
@@ -33,13 +35,16 @@ class _BoardWidgetState extends State<BoardWidget> {
         //     spacing: 20,
         //     runSpacing: 20,
         //     children: [
-        PlayingAreaWidget(boardState.playingArea),
+        PlayingAreaWidget(boardState.playingArea,
+          currentPlayer: boardState.currentPlayer,
+        ),
         //       PlayingAreaWidget(boardState.areaTwo),
         //     ],
         //   ),
         // ),
         PlayerHandWidget(
-          player: boardState.firstPlayer,
+          player: boardState.players.first,
+          // playerTurn:  boardState.currentPlayer == boardState.firstPlayer,
         ),
       ],
     );
