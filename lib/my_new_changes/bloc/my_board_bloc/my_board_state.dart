@@ -7,7 +7,8 @@ enum MyBoardStateStatus {
   initial,
   playerAddedAndCardDistributed,
   currentPlayerMoved,
-  turnChanged;
+  turnChanged,
+  playerWin;
 }
 
 class MyBoardState extends Equatable {

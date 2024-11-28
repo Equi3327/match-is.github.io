@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:match_is/my_new_changes/bloc/my_board_bloc/my_board_bloc.dart';
-import 'package:provider/provider.dart';
 
+import '../../audio/audio_controller.dart';
+import '../../audio/sounds.dart';
+import '../../game_internals/score.dart';
 import '../../style/confetti.dart';
 import '../../style/my_button.dart';
 import '../../style/palette.dart';
@@ -32,6 +34,33 @@ class _MyPlaySessionScreenState extends State<MyPlaySessionScreen> {
   void initState() {
     super.initState();
     _startOfPlay = DateTime.now();
+  }
+
+  Future<void> _playerWon() async {
+    _log.info('Player won');
+
+    // TODO: replace with some meaningful score for the card game
+    final score = Score(1, 1, DateTime.now().difference(_startOfPlay));
+
+    // final playerProgress = context.read<PlayerProgress>();
+    // playerProgress.setLevelReached(widget.level.number);
+
+    // Let the player see the game just after winning for a bit.
+    await Future<void>.delayed(_preCelebrationDuration);
+    if (!mounted) return;
+
+    setState(() {
+      _duringCelebration = true;
+    });
+
+    final audioController = context.read<AudioController>();
+    audioController.playSfx(SfxType.congrats);
+
+    /// Give the player some time to see the celebration animation.
+    await Future<void>.delayed(_celebrationDuration);
+    if (!mounted) return;
+
+    GoRouter.of(context).go('/play/won', extra: {'score': score});
   }
 
   @override
@@ -66,7 +95,14 @@ class _MyPlaySessionScreenState extends State<MyPlaySessionScreen> {
                 ),
                 const Spacer(),
                 // The actual UI of the game.
-                const MyBoardWidget(),
+                BlocBuilder<MyBoardBloc, MyBoardState>(
+                  builder: (context, state) {
+                    if(state.boardStatus == MyBoardStateStatus.playerWin){
+                      _playerWon();
+                    }
+                    return MyBoardWidget(boardState: state,);
+                  },
+                ),
                 // Text("Drag cards to the two areas above."),
                 const Spacer(),
                 Padding(
