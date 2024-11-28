@@ -7,22 +7,8 @@ part 'my_board_event.dart';
 part 'my_board_state.dart';
 
 class MyBoardBloc extends Bloc<MyBoardEvent, MyBoardState> {
-  MyBoardBloc()
-      : super(
-          const MyBoardState(
-            currentPlayer: null,
-            boardStatus: MyBoardStateStatus.initial,
-            players: [],
-            pile: [],
-          ),
-        ) {
-    on<AddPlayersAndDeck>((event, emit) {
-      emit(state.copyWith(
-        boardStatus: MyBoardStateStatus.playerAddedAndCardDistributed,
-        players: event.players,
-        currentPlayer: event.players.first,
-      ));
-    });
+  final List<MyPlayer> players;
+  MyBoardBloc({required this.players}) : super(MyBoardState.initial(players: players, currentPlayer: players.first)) {
     on<MyCurrentPlayerPlayingCard>((event, emit) async {
       emit(state.copyWith(
         boardStatus: MyBoardStateStatus.currentPlayerMoved,

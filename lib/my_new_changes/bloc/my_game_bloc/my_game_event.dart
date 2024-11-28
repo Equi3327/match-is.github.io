@@ -4,11 +4,19 @@ sealed class MyGameEvent extends Equatable {
   const MyGameEvent();
 }
 
-class StartGame extends MyGameEvent {
-  const StartGame(this.players);
-  final List<MyPlayer> players;
+class PlayGame extends MyGameEvent {
+  const PlayGame(this.player);
+  /// TODO for multiplayer add current player to the game
+  final MyPlayer player;
   @override
-  List<Object?> get props => [players];
+  List<Object?> get props => [player];
+}
+
+class StartCelebrations extends MyGameEvent {
+  const StartCelebrations(this.champion);
+  final MyPlayer champion;
+  @override
+  List<Object?> get props => [champion];
 }
 
 class EndGame extends MyGameEvent {

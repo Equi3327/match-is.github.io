@@ -12,10 +12,18 @@ class MyCurrentPlayerPlayingCard extends MyBoardEvent {
   List<Object?> get props => [card];
 }
 
-class AddPlayersAndDeck extends MyBoardEvent {
-  const AddPlayersAndDeck({required this.players});
-  // final PlayingCard card;
-  final List<MyPlayer> players;
-  @override
-  List<Object?> get props => [players];
-}
+// class AddPlayersAndDeck extends MyBoardEvent {
+//   const AddPlayersAndDeck({required this.players});
+//   // final PlayingCard card;
+//   final List<MyPlayer> players;
+//   @override
+//   List<Object?> get props => [players];
+// }
+
+// class RestartGame extends MyBoardEvent {
+//   const RestartGame();
+//   // final PlayingCard card;
+//   // final List<MyPlayer> players;
+//   @override
+//   List<Object?> get props => [];
+// }

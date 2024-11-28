@@ -1,28 +1,30 @@
 part of 'my_board_bloc.dart';
 
-const MAX_CARDS = 20;
-
 
 enum MyBoardStateStatus {
   initial,
-  playerAddedAndCardDistributed,
+  // playerAddedAndCardDistributed,
   currentPlayerMoved,
   turnChanged,
   playerWin;
 }
 
 class MyBoardState extends Equatable {
-   const MyBoardState(
-      {required this.players,
-      required this.currentPlayer,
-      required this.boardStatus,
-        required this.pile,
-     });
+  const MyBoardState({
+    required this.players,
+    required this.currentPlayer,
+    required this.boardStatus,
+    required this.pile,
+  });
   final List<MyPlayer> players;
-  final MyPlayer? currentPlayer;
+  final MyPlayer currentPlayer;
   final MyBoardStateStatus boardStatus;
-   final List<PlayingCard> pile;
+  final List<PlayingCard> pile;
   static const int maxCards = 6;
+
+  MyBoardState.initial({required this.players, required this.currentPlayer})
+      : boardStatus = MyBoardStateStatus.initial,
+        pile = [];
 
   MyBoardState copyWith({
     MyBoardStateStatus? boardStatus,
@@ -40,27 +42,24 @@ class MyBoardState extends Equatable {
 
   MyBoardState addCardToPile({required PlayingCard card}) {
     currentPlayer!.removeCard(card);
-    int nextPlayerIndex = (players.indexOf(currentPlayer!) + 1) % players.length;
-
+    if (pile.isNotEmpty && pile.last == card) {
+      return MyBoardState(
+        players: players,
+        currentPlayer: currentPlayer,
+        boardStatus: MyBoardStateStatus.playerWin,
+        pile: [...pile, card],
+      );
+    }
+    int nextPlayerIndex =
+        (players.indexOf(currentPlayer!) + 1) % players.length;
     return MyBoardState(
       players: players,
       currentPlayer: players[nextPlayerIndex],
       boardStatus: MyBoardStateStatus.turnChanged,
-      pile: [...pile,card],
+      pile: [...pile, card],
     );
   }
 
-  // void _maybeTrim() {
-  //   if (pile.length > maxCards) {
-  //     pile.removeLast();
-  //   }
-  // }
-
   @override
-  List<Object?> get props => [currentPlayer, boardStatus,pile];
+  List<Object?> get props => [currentPlayer, boardStatus, pile];
 }
-
-// final class MyBoardInitial extends MyBoardState {
-//   @override
-//   List<Object> get props => [];
-// }

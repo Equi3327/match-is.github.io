@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 import 'package:match_is/my_new_changes/bloc/my_board_bloc/my_board_bloc.dart';
+import 'package:match_is/my_new_changes/bloc/my_game_bloc/my_game_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'app_bloc_observer.dart';
@@ -62,7 +63,7 @@ class MyApp extends StatelessWidget {
             dispose: (context, audio) => audio.dispose(),
             lazy: false,
           ),
-          BlocProvider(create: (context)=>MyBoardBloc()),
+          BlocProvider(create: (context)=>MyGameBloc()),
         ],
         child: Builder(builder: (context) {
           final palette = context.watch<Palette>();

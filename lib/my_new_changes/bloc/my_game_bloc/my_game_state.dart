@@ -1,28 +1,86 @@
 part of 'my_game_bloc.dart';
 
-sealed class MyGameState extends Equatable {
-  const MyGameState();
+const MAX_CARDS = 20;
+
+List<PlayingCard> DECK =
+    List.generate(MAX_CARDS, (index) => PlayingCard.random());
+
+enum MyGameStateStatus {
+  initial,
+  gameStarted,
+  playerWon,
+  gameOver;
 }
 
-final class MyGameInitial extends MyGameState {
-  // final List
+class MyGameState extends Equatable {
+  final MyGameStateStatus gameStatus;
+  final List<MyPlayer> players;
+  final MyPlayer? champion;
+
+  const MyGameState({
+    required this.gameStatus,
+    required this.players,
+    this.champion,
+  });
+
+  MyGameState.initial()
+      : gameStatus = MyGameStateStatus.initial,
+        players = [],
+        champion = null;
+  const MyGameState.started({required this.players})
+      : gameStatus = MyGameStateStatus.gameStarted,
+        champion = null;
+
+  MyGameState copyWith({
+    MyGameStateStatus? gameStatus,
+  }) {
+    return MyGameState(
+      players: players,
+      champion: champion,
+      gameStatus: gameStatus ?? this.gameStatus,
+    );
+  }
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [gameStatus, players, champion];
 }
 
-final class MyGameStarted extends MyGameState {
-  // final List
-  @override
-  List<Object> get props => [];
-}
+// final class MyGameInitial extends MyGameState {
+//   @override
+//   List<Object> get props => [];
+// }
+//
+// final class MyGameStarted extends MyGameState {
+//   final List<MyPlayer> players;
+//
+//   MyGameStarted({required this.players});
+//
+//   @override
+//   List<Object> get props => [
+//         players,
+//       ];
+// }
+//
+// final class GameOver extends MyGameState {
+//   // final List
+//   @override
+//   List<Object> get props => [];
+// }
+//
+// final class PlayerWon extends MyGameState {
+//   final MyPlayer champion;
+//   const PlayerWon(this.champion);
+//   @override
+//   List<Object> get props => [champion];
+// }
 
-final class MyGamePlayFailed extends MyGameState {
-  // final List
-  @override
-  List<Object> get props => [];
-}
+// final class MyGamePlayFailed extends MyGameState {
+//   // final List
+//   @override
+//   List<Object> get props => [];
+// }
 
-// final class MyGameEnded extends MyGameState {
+// final class PlayerAdded extends MyGameState {
 //   // final List
 //   @override
 //   List<Object> get props => [];

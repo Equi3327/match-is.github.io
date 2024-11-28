@@ -11,7 +11,8 @@ import '../models/my_player.dart';
 import 'my_playing_card_widget.dart';
 
 class MyPlayingAreaWidget extends StatefulWidget {
-  const MyPlayingAreaWidget({super.key, required this.pile, required this.currentPlayer});
+  const MyPlayingAreaWidget(
+      {super.key, required this.pile, required this.currentPlayer});
   final List<PlayingCard> pile;
   final MyPlayer currentPlayer;
 
@@ -33,30 +34,15 @@ class _MyPlayingAreaWidgetState extends State<MyPlayingAreaWidget> {
   }
 
   void _onDragAccept(DragTargetDetails<MyPlayingCardDragData> data) {
-    // debugPrint("PlayingAreaWidget currentPlayer ${widget.currentPlayer}");
-    // debugPrint("PlayingAreaWidget PlayingCardDragData holder${data.holder}");
-    // if (widget.currentPlayer != data.holder) {
-    //   // debugPrint("PlayingAreaWidget PlayingCardDragData widget.currentPlayer != data.holder");
-    //   // throw Exception("It's not this player's turn!");
-    //   return;
-    // }
-    // widget.area.playerChanges;
-    // debugPrint("+++++++++++++++++++++++++++++++");
-    // widget.area.acceptCard(data.card);
-    // data.holder.removeCard(data.card);
-    // widget.currentPlayer =
-    // debugPrint("PlayingAreaWidget holderremoveCard${data.holder}");
-    BlocProvider.of<MyBoardBloc>(context).add(MyCurrentPlayerPlayingCard(card: data.data.card));
+    BlocProvider.of<MyBoardBloc>(context)
+        .add(MyCurrentPlayerPlayingCard(card: data.data.card));
     setState(() => isHighlighted = false);
   }
 
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
-    // final palette = context.watch<Palette>();
-    // final boardState = context.watch<BoardState>();
-    // debugPrint("PlayingAreaWidget widget currentPlayer ${widget.currentPlayer}");
-    // debugPrint("PlayingAreaWidget boardState currentPlayer ${boardState.currentPlayer}");
+    debugPrint("widget.pile length:: ${widget.pile.length}");
     return LimitedBox(
       maxHeight: 200,
       child: AspectRatio(
@@ -66,7 +52,7 @@ class _MyPlayingAreaWidgetState extends State<MyPlayingAreaWidget> {
             height: 100,
             child: Material(
               color: isHighlighted ? palette.accept : palette.trueWhite,
-              shape: CircleBorder(),
+              shape: const CircleBorder(),
               clipBehavior: Clip.hardEdge,
               child: InkWell(
                 splashColor: palette.redPen,
@@ -75,42 +61,13 @@ class _MyPlayingAreaWidgetState extends State<MyPlayingAreaWidget> {
               ),
             ),
           ),
-          // onWillAccept: _onDragWillAccept,
-          onWillAcceptWithDetails:_onDragWillAccept,
+          onWillAcceptWithDetails: _onDragWillAccept,
           onLeave: _onDragLeave,
           onAcceptWithDetails: _onDragAccept,
         ),
       ),
     );
   }
-
-  // void _onAreaTap() {
-  //   widget.area.removeFirstCard();
-  //
-  //   final audioController = context.read<AudioController>();
-  //   audioController.playSfx(SfxType.huhsh);
-  // }
-
-  // void _onDragAccept(PlayingCardDragData data) {
-  //   // debugPrint("PlayingAreaWidget currentPlayer ${widget.currentPlayer}");
-  //   // debugPrint("PlayingAreaWidget PlayingCardDragData holder${data.holder}");
-  //   // if (widget.currentPlayer != data.holder) {
-  //   //   // debugPrint("PlayingAreaWidget PlayingCardDragData widget.currentPlayer != data.holder");
-  //   //   // throw Exception("It's not this player's turn!");
-  //   //   return;
-  //   // }
-  //   // widget.area.playerChanges;
-  //   debugPrint("+++++++++++++++++++++++++++++++");
-  //   widget.area.acceptCard(data.card);
-  //   data.holder.removeCard(data.card);
-  //   // widget.currentPlayer =
-  //   // debugPrint("PlayingAreaWidget holderremoveCard${data.holder}");
-  //   setState(() => isHighlighted = false);
-  // }
-
-
-
-
 }
 
 class _CardStack extends StatelessWidget {
@@ -145,7 +102,6 @@ class _CardStack extends StatelessWidget {
                 left: i * _leftOffset,
                 child: MyPlayingCardWidget(
                   card: cards[i],
-                  // canBeRemoved: false,
                 ),
               ),
           ],

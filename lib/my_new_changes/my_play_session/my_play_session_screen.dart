@@ -10,6 +10,7 @@ import '../../game_internals/score.dart';
 import '../../style/confetti.dart';
 import '../../style/my_button.dart';
 import '../../style/palette.dart';
+import '../bloc/my_game_bloc/my_game_bloc.dart';
 import 'my_board_widget.dart';
 
 class MyPlaySessionScreen extends StatefulWidget {
@@ -22,111 +23,81 @@ class MyPlaySessionScreen extends StatefulWidget {
 class _MyPlaySessionScreenState extends State<MyPlaySessionScreen> {
   static final _log = Logger('MyPlaySessionScreen');
 
-  static const _celebrationDuration = Duration(milliseconds: 2000);
-
-  static const _preCelebrationDuration = Duration(milliseconds: 500);
-
-  bool _duringCelebration = false;
-
-  late DateTime _startOfPlay;
-
-  @override
-  void initState() {
-    super.initState();
-    _startOfPlay = DateTime.now();
-  }
-
-  Future<void> _playerWon() async {
-    _log.info('Player won');
-
-    // TODO: replace with some meaningful score for the card game
-    final score = Score(1, 1, DateTime.now().difference(_startOfPlay));
-
-    // final playerProgress = context.read<PlayerProgress>();
-    // playerProgress.setLevelReached(widget.level.number);
-
-    // Let the player see the game just after winning for a bit.
-    await Future<void>.delayed(_preCelebrationDuration);
-    if (!mounted) return;
-
-    setState(() {
-      _duringCelebration = true;
-    });
-
-    final audioController = context.read<AudioController>();
-    audioController.playSfx(SfxType.congrats);
-
-    /// Give the player some time to see the celebration animation.
-    await Future<void>.delayed(_celebrationDuration);
-    if (!mounted) return;
-
-    GoRouter.of(context).go('/play/won', extra: {'score': score});
-  }
-
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
 
-    return IgnorePointer(
-      // Ignore all input during the celebration animation.
-      ignoring: _duringCelebration,
-      child: Scaffold(
-        backgroundColor: palette.backgroundPlaySession,
-        // The stack is how you layer widgets on top of each other.
-        // Here, it is used to overlay the winning confetti animation on top
-        // of the game.
-        body: Stack(
-          children: [
-            // This is the main layout of the play session screen,
-            // with a settings button at top, the actual play area
-            // in the middle, and a back button at the bottom.
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: InkResponse(
-                    onTap: () => GoRouter.of(context).push('/settings'),
-                    child: Image.asset(
-                      'assets/images/settings.png',
-                      semanticLabel: 'Settings',
+    return BlocConsumer<MyGameBloc, MyGameState>(
+      listener: (context, state) {
+        if (state.gameStatus == MyGameStateStatus.gameOver) {
+          final score = Score(1, 1, const Duration(milliseconds: 6000));
+          GoRouter.of(context).go('/play/won', extra: {'score': score});
+        }
+      },
+      builder: (context, state) {
+        switch (state.gameStatus) {
+          case MyGameStateStatus.initial:
+            return Container();
+          case MyGameStateStatus.gameStarted ||
+                MyGameStateStatus.playerWon ||
+                MyGameStateStatus.gameOver:
+            bool duringCelebration =
+                state.gameStatus == MyGameStateStatus.playerWon;
+            if (duringCelebration) {
+              final audioController = context.read<AudioController>();
+              audioController.playSfx(SfxType.congrats);
+            }
+            return IgnorePointer(
+              ignoring: duringCelebration,
+              child: Scaffold(
+                backgroundColor: palette.backgroundPlaySession,
+                body: Stack(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: InkResponse(
+                            onTap: () => GoRouter.of(context).push('/settings'),
+                            child: Image.asset(
+                              'assets/images/settings.png',
+                              semanticLabel: 'Settings',
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        BlocProvider(
+                          create: (context) =>
+                              MyBoardBloc(players: state.players),
+                          child: const MyBoardWidget(),
+                        ),
+                        const Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: MyButton(
+                            onPressed: () => GoRouter.of(context).go('/'),
+                            child: const Text('Back'),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-                const Spacer(),
-                // The actual UI of the game.
-                BlocBuilder<MyBoardBloc, MyBoardState>(
-                  builder: (context, state) {
-                    if(state.boardStatus == MyBoardStateStatus.playerWin){
-                      _playerWon();
-                    }
-                    return MyBoardWidget(boardState: state,);
-                  },
-                ),
-                // Text("Drag cards to the two areas above."),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: MyButton(
-                    onPressed: () => GoRouter.of(context).go('/'),
-                    child: const Text('Back'),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox.expand(
-              child: Visibility(
-                visible: _duringCelebration,
-                child: IgnorePointer(
-                  child: Confetti(
-                    isStopped: !_duringCelebration,
-                  ),
+                    SizedBox.expand(
+                      child: Visibility(
+                        visible: duringCelebration,
+                        child: IgnorePointer(
+                          child: Confetti(
+                            isStopped: !duringCelebration,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
+            );
+        }
+      },
     );
   }
 }

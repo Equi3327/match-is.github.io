@@ -8,8 +8,8 @@ class MyPlayer extends Equatable {
   // final List<PlayingCard> hand =
   //     List.generate(maxCards, (index) => PlayingCard.random());
 
-  const MyPlayer({required this.playerName, required this.hand});
-  final List<PlayingCard> hand;
+  MyPlayer({required this.playerName});
+  final List<PlayingCard> hand = [];
   final MyGamePlayer playerName;
 
   void removeCard(PlayingCard card) {
@@ -23,7 +23,7 @@ class MyPlayer extends Equatable {
   // }
 
   @override
-  List<Object?> get props => [ playerName,hand];
+  List<Object?> get props => [playerName, hand];
 }
 
 enum MyGamePlayer { player1, player2 }

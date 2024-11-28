@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -52,6 +53,7 @@ class WinGameScreen extends StatelessWidget {
         ),
         rectangularMenuArea: MyButton(
           onPressed: () {
+            // BlocProvider.of<MyBoardBloc>(context).add(const RestartGame());
             GoRouter.of(context).go('/');
           },
           child: const Text('Continue'),
