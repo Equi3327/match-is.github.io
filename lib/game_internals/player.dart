@@ -1,24 +1,20 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 
 import 'playing_card.dart';
 
-class Player extends ChangeNotifier with EquatableMixin {
+class Player extends Equatable {
   // static const maxCards = 7;
   //
   // final List<PlayingCard> hand =
   //     List.generate(maxCards, (index) => PlayingCard.random());
 
-  Player(this.playerName, {this.canMove = false, required this.hand});
-  final List<PlayingCard> hand;
+  Player({required this.playerName});
+  final List<PlayingCard> hand = [];
   final GamePlayer playerName;
-  late bool canMove;
 
   void removeCard(PlayingCard card) {
-    if (!canMove) return;
     hand.remove(card);
     // canMove = !canMove;
-    notifyListeners();
   }
 
   // void changeTurn(){
@@ -27,7 +23,7 @@ class Player extends ChangeNotifier with EquatableMixin {
   // }
 
   @override
-  List<Object?> get props => [ playerName,canMove];
+  List<Object?> get props => [playerName, hand];
 }
 
 enum GamePlayer { player1, player2 }

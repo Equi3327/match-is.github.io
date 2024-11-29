@@ -1,4 +1,3 @@
-
 List<String> soundTypeToFilename(SfxType type) {
   switch (type) {
     case SfxType.huhsh:

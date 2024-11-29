@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import 'game_internals/score.dart';
 import 'main_menu/main_menu_screen.dart';
-import 'my_new_changes/my_play_session/my_play_session_screen.dart';
 import 'play_session/play_session_screen.dart';
 import 'settings/settings_screen.dart';
 import 'style/my_transition.dart';
@@ -22,12 +21,9 @@ final router = GoRouter(
         GoRoute(
           path: 'play',
           pageBuilder: (context, state) => buildMyTransition<void>(
-            key: ValueKey('play'),
+            key: const ValueKey('play'),
             color: context.watch<Palette>().backgroundPlaySession,
-            // child: const PlaySessionScreen(
-            //   key: Key('level selection'),
-            // ),
-            child: const MyPlaySessionScreen(
+            child: const PlaySessionScreen(
               key: Key('level selection'),
             ),
           ),
@@ -36,12 +32,8 @@ final router = GoRouter(
               path: 'won',
               redirect: (context, state) {
                 if (state.extra == null) {
-                  // Trying to navigate to a win screen without any data.
-                  // Possibly by using the browser's back button.
                   return '/';
                 }
-
-                // Otherwise, do not redirect.
                 return null;
               },
               pageBuilder: (context, state) {
@@ -49,7 +41,7 @@ final router = GoRouter(
                 final score = map['score'] as Score;
 
                 return buildMyTransition<void>(
-                  key: ValueKey('won'),
+                  key: const ValueKey('won'),
                   color: context.watch<Palette>().backgroundPlaySession,
                   child: WinGameScreen(
                     score: score,

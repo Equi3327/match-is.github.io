@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:match_is/my_new_changes/bloc/my_board_bloc/my_board_bloc.dart';
-import 'package:match_is/my_new_changes/bloc/my_game_bloc/my_game_bloc.dart';
-import 'package:match_is/my_new_changes/models/my_player.dart';
-import 'package:provider/provider.dart';
 
 import '../audio/audio_controller.dart';
 import '../audio/sounds.dart';
-import '../game_internals/playing_card.dart';
+import '../blocs/game_bloc/game_bloc.dart';
+import '../game_internals/player.dart';
 import '../settings/settings.dart';
 import '../style/my_button.dart';
 import '../style/palette.dart';
@@ -24,7 +21,7 @@ class MainMenuScreen extends StatelessWidget {
     final audioController = context.watch<AudioController>();
 
     return Scaffold(
-      backgroundColor: palette.backgroundMain,
+      backgroundColor: palette.trueBlack,
       body: ResponsiveScreen(
         squarishMainArea: Center(
           child: Transform.rotate(
@@ -33,7 +30,6 @@ class MainMenuScreen extends StatelessWidget {
               'Match Is!',
               textAlign: TextAlign.center,
               style: TextStyle(
-                // fontFamily: 'Permanent Marker',
                 fontSize: 55,
                 height: 1,
               ),
@@ -46,36 +42,13 @@ class MainMenuScreen extends StatelessWidget {
             MyButton(
               onPressed: () {
                 audioController.playSfx(SfxType.buttonTap);
-                // final List<PlayingCard> deck =
-                //     List.generate(MAX_CARDS, (index) => PlayingCard.random());
-                // final MyPlayer firstPlayer = MyPlayer(
-                //   playerName: MyGamePlayer.player1, hand: [],
-                //   // canMove: true,
-                // );
-                BlocProvider.of<MyGameBloc>(context).add(
+                BlocProvider.of<GameBloc>(context).add(
                   PlayGame(
-                    MyPlayer(
-                      playerName: MyGamePlayer.player1,
-                      // canMove: true,
+                    Player(
+                      playerName: GamePlayer.player1,
                     ),
                   ),
                 );
-                // BlocProvider.of<MyBoardBloc>(context).add(
-                //   AddPlayersAndDeck(
-                //     players: [
-                //       MyPlayer(
-                //         playerName: MyGamePlayer.player1,
-                //         hand: deck.sublist(0, MAX_CARDS ~/ 2),
-                //         // canMove: true,
-                //       ),
-                //       MyPlayer(
-                //         playerName: MyGamePlayer.player2,
-                //         hand: deck.sublist(MAX_CARDS ~/ 2, MAX_CARDS),
-                //         // canMove: false,
-                //       )
-                //     ],
-                //   ),
-                // );
                 GoRouter.of(context).go('/play');
               },
               child: const Text('Play'),

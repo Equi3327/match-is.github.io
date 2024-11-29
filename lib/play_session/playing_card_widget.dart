@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../audio/audio_controller.dart';
-import '../audio/sounds.dart';
-import '../game_internals/player.dart';
-import '../game_internals/playing_card.dart';
-import '../style/palette.dart';
+import '../../audio/audio_controller.dart';
+import '../../audio/sounds.dart';
+import '../../game_internals/playing_card.dart';
+import '../../style/palette.dart';
+import '../../game_internals/player.dart';
 
 class PlayingCardWidget extends StatelessWidget {
-  // A standard playing card is 57.1mm x 88.9mm.
+  const PlayingCardWidget({super.key, required this.card, this.player});
   static const double width = 64;
 
   static const double height = 89;
@@ -16,50 +16,24 @@ class PlayingCardWidget extends StatelessWidget {
   final PlayingCard card;
 
   final Player? player;
-
-  // final bool canBeRemoved;
-
-  const PlayingCardWidget(this.card, {this.player, super.key, /*required this.canBeRemoved*/});
-
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
-    // final textColor =
-    //     card.suit.color == CardSuitColor.red ? palette.redPen : palette.ink;
-
-    // final cardWidget = DefaultTextStyle(
-    //   style: Theme.of(context).textTheme.bodyMedium!.apply(color: textColor),
-    //   child: Container(
-    //     width: width,
-    //     height: height,
-    //     decoration: BoxDecoration(
-    //       color: palette.trueWhite,
-    //       border: Border.all(color: palette.ink),
-    //       borderRadius: BorderRadius.circular(5),
-    //     ),
-    //     child: Center(
-    //       child: Text('${card.suit.asCharacter}\n${card.value}',
-    //           textAlign: TextAlign.center),
-    //     ),
-    //   ),
-    // );
     final cardWidget = Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
-        image:  DecorationImage(image: AssetImage("assets/my_assets/${card.suit.internalRepresentation}_${card.suitColor.internalRepresentation}.png")),
+        image: DecorationImage(
+            image: AssetImage(
+                "assets/game_assets/${card.suit.internalRepresentation}.png")),
         color: palette.trueWhite,
         border: Border.all(color: palette.ink),
         borderRadius: BorderRadius.circular(5),
       ),
-      // child: Center(
-      //   child: Text('${card.suit.asCharacter}\n${card.value}',
-      //       textAlign: TextAlign.center),
-      // ),
     );
 
     /// Cards that aren't in a player's hand are not draggable.
-    if (player == null /*&& !canBeRemoved*/) return cardWidget;
+    if (player == null) return cardWidget;
 
     return Draggable(
       feedback: Transform.rotate(

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../game_internals/board_state.dart';
-import '../game_internals/player.dart';
+import '../../game_internals/player.dart';
 import 'playing_card_widget.dart';
 
 class PlayerHandWidget extends StatelessWidget {
-  const PlayerHandWidget({super.key, required this.player, /*required this.playerTurn*/});
+  const PlayerHandWidget({
+    super.key,
+    required this.player,
+    /*required this.playerTurn*/
+  });
   final Player player;
   // final bool playerTurn;
   @override
@@ -16,26 +18,25 @@ class PlayerHandWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: PlayingCardWidget.height),
-        child: ListenableBuilder(
-          // Make sure we rebuild every time there's an update
-          // to the player's hand.
-          listenable: player,
-          builder: (context, child) {
-            return Wrap(
-              alignment: WrapAlignment.center,
-              spacing: 10,
-              runSpacing: 10,
-              children: [
-                ...player.hand.map((card) =>
-                    PlayingCardWidget(card, player: player,
-                      // canBeRemoved: playerTurn,
-                    )),
-              ],
-            );
-          },
-        ),
-      ),
+          constraints: const BoxConstraints(
+              minHeight: PlayingCardWidget.height,
+              minWidth: PlayingCardWidget.width),
+          child: PlayingCardWidget(
+            player: player, card: player.hand.first,
+            // canBeRemoved: playerTurn,
+          )
+          // Wrap(
+          //   alignment: WrapAlignment.center,
+          //   spacing: 10,
+          //   runSpacing: 10,
+          //   children: [
+          //     ...player.hand.map((card) => PlayingCardWidget(
+          //           player: player, card: card,
+          //           // canBeRemoved: playerTurn,
+          //         )),
+          //   ],
+          // ),
+          ),
     );
   }
 }

@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 
-
 class Confetti extends StatefulWidget {
   static const _defaultColors = [
     Color(0xffd10841),

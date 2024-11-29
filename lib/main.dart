@@ -5,20 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
-import 'package:match_is/my_new_changes/bloc/my_board_bloc/my_board_bloc.dart';
-import 'package:match_is/my_new_changes/bloc/my_game_bloc/my_game_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'app_bloc_observer.dart';
 import 'app_lifecycle/app_lifecycle.dart';
 import 'audio/audio_controller.dart';
+import 'blocs/game_bloc/game_bloc.dart';
 import 'player_progress/player_progress.dart';
 import 'router.dart';
 import 'settings/settings.dart';
 import 'style/palette.dart';
 
 void main() async {
-  // Basic logging setup.
   Logger.root.level = kDebugMode ? Level.FINE : Level.INFO;
   Logger.root.onRecord.listen((record) {
     dev.log(
@@ -30,9 +28,7 @@ void main() async {
   });
 
   WidgetsFlutterBinding.ensureInitialized();
-  // Put game into full screen mode on mobile devices.
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  // Lock the game to portrait mode on mobile devices.
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -63,7 +59,7 @@ class MyApp extends StatelessWidget {
             dispose: (context, audio) => audio.dispose(),
             lazy: false,
           ),
-          BlocProvider(create: (context)=>MyGameBloc()),
+          BlocProvider(create: (context) => GameBloc()),
         ],
         child: Builder(builder: (context) {
           final palette = context.watch<Palette>();
@@ -72,11 +68,11 @@ class MyApp extends StatelessWidget {
             title: 'Match Is!',
             theme: ThemeData.from(
               colorScheme: ColorScheme.fromSeed(
-                seedColor: palette.darkPen,
-                onSurface: palette.backgroundMain,
+                seedColor: palette.trueBlack,
+                onSurface: palette.trueWhite,
               ),
               textTheme: TextTheme(
-                bodyMedium: TextStyle(color: palette.ink),
+                bodyMedium: TextStyle(color: palette.redPen),
               ),
               useMaterial3: true,
             ).copyWith(

@@ -1,34 +1,34 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:match_is/my_new_changes/models/my_player.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../game_internals/playing_card.dart';
+import '../../game_internals/player.dart';
 
-part 'my_game_event.dart';
-part 'my_game_state.dart';
+part 'game_event.dart';
+part 'game_state.dart';
 
 const _celebrationDuration = Duration(milliseconds: 2000);
 
 const _preCelebrationDuration = Duration(milliseconds: 500);
 
-class MyGameBloc extends Bloc<MyGameEvent, MyGameState> {
-  MyGameBloc() : super(MyGameState.initial()) {
+class GameBloc extends Bloc<GameEvent, GameState> {
+  GameBloc() : super(GameState.initial()) {
     on<PlayGame>((event, emit) {
       /// TODO Add logic to add second player
       DECK.shuffle();
-      final secondPlayer = MyPlayer(playerName: MyGamePlayer.player2);
+      final secondPlayer = Player(playerName: GamePlayer.player2);
       event.player.hand.addAll(DECK.sublist(0, MAX_CARDS ~/ 2));
       secondPlayer.hand.addAll(DECK.sublist(MAX_CARDS ~/ 2, MAX_CARDS));
-      emit(MyGameState.started(players: [event.player, secondPlayer]));
+      emit(GameState.started(players: [event.player, secondPlayer]));
     });
     on<StartCelebrations>((event, emit) async {
       await Future<void>.delayed(_preCelebrationDuration);
-      emit(state.copyWith(gameStatus:MyGameStateStatus.playerWon));
+      emit(state.copyWith(gameStatus: GameStateStatus.playerWon));
       await Future<void>.delayed(_celebrationDuration);
-      emit(state.copyWith(gameStatus:MyGameStateStatus.gameOver));
+      emit(state.copyWith(gameStatus: GameStateStatus.gameOver));
     });
     on<EndGame>((event, emit) {
-      emit(MyGameState.initial());
+      emit(GameState.initial());
     });
   }
 }

@@ -213,6 +213,7 @@ class AudioController {
   /// Preloads all sound effects.
   Future<void> _preloadSfx() async {
     _log.info('Preloading sound effects');
+
     /// INFO :: his assumes there is only a limited number of sound effects in the game.
     /// If there are hundreds of long sound effect files, it's better
     /// to be more selective when preloading.

@@ -1,25 +1,26 @@
-part of 'my_game_bloc.dart';
+part of 'game_bloc.dart';
 
-sealed class MyGameEvent extends Equatable {
-  const MyGameEvent();
+sealed class GameEvent extends Equatable {
+  const GameEvent();
 }
 
-class PlayGame extends MyGameEvent {
+class PlayGame extends GameEvent {
   const PlayGame(this.player);
+
   /// TODO for multiplayer add current player to the game
-  final MyPlayer player;
+  final Player player;
   @override
   List<Object?> get props => [player];
 }
 
-class StartCelebrations extends MyGameEvent {
+class StartCelebrations extends GameEvent {
   const StartCelebrations(this.champion);
-  final MyPlayer champion;
+  final Player champion;
   @override
   List<Object?> get props => [champion];
 }
 
-class EndGame extends MyGameEvent {
+class EndGame extends GameEvent {
   const EndGame();
 
   @override

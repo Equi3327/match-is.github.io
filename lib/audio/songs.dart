@@ -1,4 +1,3 @@
-
 const Set<Song> songs = {
   Song('Mr_Smith-Azul.mp3', 'Azul', artist: 'Mr Smith'),
   Song('Mr_Smith-Sonorus.mp3', 'Sonorus', artist: 'Mr Smith'),
