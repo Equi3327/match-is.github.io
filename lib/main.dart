@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
                   foregroundColor: palette.trueBlack,
                         shadowColor: palette.redPen,
                         padding: const EdgeInsets.all(16.0),
-                      shape: BeveledRectangleBorder(
+                      shape: const BeveledRectangleBorder(
                           borderRadius:BorderRadius.all(Radius.circular(8,))
                       ),
                       textStyle: const TextStyle(

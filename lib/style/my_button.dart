@@ -22,11 +22,19 @@ class _MyButtonState extends State<MyButton>
     duration: const Duration(milliseconds: 300),
     vsync: this,
   );
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void dispose() {
     _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.requestFocus();
   }
 
   @override
@@ -41,10 +49,16 @@ class _MyButtonState extends State<MyButton>
       },
       child: RotationTransition(
         turns: _controller.drive(const _MySineTween(0.005)),
-        child: ElevatedButton(
-
-          onPressed: widget.onPressed,
-          child: widget.child,
+        child: KeyboardListener(
+          focusNode: _focusNode,
+          onKeyEvent: (keyEvent){
+            debugPrint("keyEvent.character ::${keyEvent.character}");
+            widget.onPressed!();
+          },
+          child: ElevatedButton(
+            onPressed: widget.onPressed,
+            child: widget.child,
+          ),
         ),
       ),
     );
