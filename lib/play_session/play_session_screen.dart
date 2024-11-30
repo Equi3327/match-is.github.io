@@ -53,35 +53,22 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                 backgroundColor: palette.trueWhite,
                 body: Stack(
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      // crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // Align(
-                        //   alignment: Alignment.centerRight,
-                        //   child: InkResponse(
-                        //     onTap: () => GoRouter.of(context).push('/settings'),
-                        //     child: Image.asset(
-                        //       'assets/images/settings.png',
-                        //       semanticLabel: 'Settings',
-                        //     ),
-                        //   ),
-                        // ),
-                        // const Spacer(),
-                        BlocProvider(
-                          create: (context) =>
-                              BoardBloc(players: state.players),
-                          child: const BoardWidget(),
-                        ),
-                        // const Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: MyButton(
-                            onPressed: () => GoRouter.of(context).go('/'),
-                            child: const Text('Back'),
+                    BlocProvider(
+                      create: (context) =>
+                          BoardBloc(players: state.players),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const BoardWidget(),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: MyButton(
+                              onPressed: () => GoRouter.of(context).go('/'),
+                              child: const Text('Back'),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     SizedBox.expand(
                       child: Visibility(

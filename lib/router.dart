@@ -21,7 +21,7 @@ final router = GoRouter(
           path: 'play',
           pageBuilder: (context, state) => buildMyTransition<void>(
             key: const ValueKey('play'),
-            color: context.watch<Palette>().backgroundPlaySession,
+            color: context.watch<Palette>().trueBlack,
             child: const PlaySessionScreen(
               key: Key('level selection'),
             ),
@@ -42,7 +42,7 @@ final router = GoRouter(
 
                 return buildMyTransition<void>(
                   key: const ValueKey('won'),
-                  color: context.watch<Palette>().backgroundPlaySession,
+                  color: context.watch<Palette>().trueBlack,
                   child: WinGameScreen(
                     score: score,
                     key: const Key('win game'), didPlayerWin: didPlayerWin,

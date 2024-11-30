@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/board_bloc/board_bloc.dart';
 import '../blocs/game_bloc/game_bloc.dart';
+import '../style/my_button.dart';
 import 'player_hand_widget.dart';
 import 'playing_area_widget.dart';
 
@@ -39,6 +40,13 @@ class BoardWidget extends StatelessWidget {
               PlayerHandWidget(
                 player: state.players.first,
               ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: MyButton(
+              //     onPressed: () => BlocProvider.of<BoardBloc>(context).add(CurrentPlayerPlayingCard(card: null)),
+              //     child: const Text('Play'),
+              //   ),
+              // ),
             ],
           ),
         );

@@ -22,15 +22,13 @@ class WinGameScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
 
-    const gap = SizedBox(height: 10);
 
     return Scaffold(
-      backgroundColor: palette.backgroundPlaySession,
+      backgroundColor: palette.trueWhite,
       body: ResponsiveScreen(
         squarishMainArea: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // gap,
             Center(
               child: Text(
                 'You ${didPlayerWin ? "won!":"lost!"}',
@@ -40,22 +38,10 @@ class WinGameScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // gap,
-            // Center(
-            //   child: Text(
-            //     'Score: ${score.score}\n'
-            //     'Time: ${score.formattedTime}',
-            //     style: const TextStyle(
-            //       // fontFamily: 'Permanent Marker',
-            //       fontSize: 20,
-            //     ),
-            //   ),
-            // ),
           ],
         ),
         rectangularMenuArea: MyButton(
           onPressed: () {
-            // BlocProvider.of<MyBoardBloc>(context).add(const RestartGame());
             GoRouter.of(context).go('/');
           },
           child: const Text('Continue'),

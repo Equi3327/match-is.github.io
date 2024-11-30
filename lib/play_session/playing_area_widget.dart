@@ -53,15 +53,13 @@ class _PlayingAreaWidgetState extends State<PlayingAreaWidget> {
         builder: (context, candidateData, rejectedData) => PhysicalModel(
           color: isHighlighted ? palette.accept : palette.board,
           // shape: const StadiumBorder(),
-          borderRadius:const BorderRadius.all(Radius.circular(40)),
-          shadowColor:palette.trueBlack,
+          borderRadius: const BorderRadius.all(Radius.circular(40)),
+          shadowColor: palette.trueBlack,
           elevation: 5.0,
           clipBehavior: Clip.hardEdge,
           child: InkWell(
             splashColor: palette.redPen,
-            // onTap: _onAreaTap,
-            child:
-            _CardStack(widget.pile,lastElementOffset),
+            child: _CardStack(widget.pile),
           ),
         ),
         onWillAcceptWithDetails: _onDragWillAccept,
@@ -73,26 +71,22 @@ class _PlayingAreaWidgetState extends State<PlayingAreaWidget> {
 }
 
 class _CardStack extends StatelessWidget {
-
   static const _leftOffset = 15.0;
 
   final List<PlayingCard> cards;
-  final Offset lastElementOffset;
 
-  const _CardStack(this.cards, this.lastElementOffset);
+  const _CardStack(this.cards);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.center,
       children: [
-        for (var i = 0;
-            i < cards.length;
-            i++)
+        for (var i = 0; i < cards.length; i++)
           Align(
             alignment: Alignment.center,
             child: Transform.translate(
-              offset: Offset((-(cards.length - i-1) * 16.0)+150, 0),
+              offset: Offset((-(cards.length - i - 1) * 16.0) + 150, 0),
               child: PlayingCardWidget(
                 card: cards[i],
                 show: true,
