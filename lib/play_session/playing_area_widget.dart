@@ -49,23 +49,37 @@ class _PlayingAreaWidgetState extends State<PlayingAreaWidget> {
     return SizedBox(
       width: size.width * 0.7,
       height: size.height * 0.5,
-      child: DragTarget<PlayingCardDragData>(
-        builder: (context, candidateData, rejectedData) => PhysicalModel(
-          color: isHighlighted ? palette.accept : palette.board,
-          // shape: const StadiumBorder(),
-          borderRadius: const BorderRadius.all(Radius.circular(40)),
-          shadowColor: palette.trueBlack,
-          elevation: 5.0,
-          clipBehavior: Clip.hardEdge,
-          child: InkWell(
-            splashColor: palette.redPen,
-            child: _CardStack(widget.pile),
-          ),
+      child:
+      PhysicalModel(
+        color: isHighlighted ? palette.accept : palette.board,
+        // shape: const StadiumBorder(),
+        borderRadius: const BorderRadius.all(Radius.circular(40)),
+        shadowColor: palette.trueBlack,
+        elevation: 5.0,
+        clipBehavior: Clip.hardEdge,
+        child: InkWell(
+          splashColor: palette.redPen,
+          child: _CardStack(widget.pile),
         ),
-        onWillAcceptWithDetails: _onDragWillAccept,
-        onLeave: _onDragLeave,
-        onAcceptWithDetails: _onDragAccept,
       ),
+      // DragTarget<PlayingCardDragData>(
+      //   builder: (context, candidateData, rejectedData) =>
+      //       PhysicalModel(
+      //     color: isHighlighted ? palette.accept : palette.board,
+      //     // shape: const StadiumBorder(),
+      //     borderRadius: const BorderRadius.all(Radius.circular(40)),
+      //     shadowColor: palette.trueBlack,
+      //     elevation: 5.0,
+      //     clipBehavior: Clip.hardEdge,
+      //     child: InkWell(
+      //       splashColor: palette.redPen,
+      //       child: _CardStack(widget.pile),
+      //     ),
+      //   ),
+      //   onWillAcceptWithDetails: _onDragWillAccept,
+      //   onLeave: _onDragLeave,
+      //   onAcceptWithDetails: _onDragAccept,
+      // ),
     );
   }
 }
