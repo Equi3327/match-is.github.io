@@ -3,7 +3,7 @@ part of 'game_bloc.dart';
 const int MAX_CARDS = 20;
 
 List<PlayingCard> DECK = //[...List.generate(MAX_CARDS~/2, (index) => PlayingCard(CardSuit.spade)),...List.generate(MAX_CARDS~/2, (index) => PlayingCard(CardSuit.club)),];
-     List.generate(MAX_CARDS, (index) => PlayingCard.random());
+List.generate(MAX_CARDS, (index) => PlayingCard.random());
 
 enum GameStateStatus {
   initial,
