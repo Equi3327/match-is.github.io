@@ -35,6 +35,7 @@ class BoardWidget extends StatelessWidget {
                 children: [
                   PlayerHandWidget(
                     player: state.players.last,
+                    currentPlayer: state.currentPlayer,
                   ),
                   PlayingAreaWidget(
                     pile: state.pile,
@@ -42,6 +43,7 @@ class BoardWidget extends StatelessWidget {
                   ),
                   PlayerHandWidget(
                     player: state.players.first,
+                    currentPlayer: state.currentPlayer,
                   ),
                   // Padding(
                   //   padding: const EdgeInsets.all(8.0),

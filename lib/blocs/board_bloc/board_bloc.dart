@@ -19,10 +19,11 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
       emit(state.copyWith(
         boardStatus: BoardStateStatus.currentPlayerMoved,
       ));
+      // await Future.delayed(Duration(seconds: 1));
       emit(state.addCardToPile(card: event.card));
       if (state.boardStatus != BoardStateStatus.playerWin &&
           state.currentPlayer == state.players.last) {
-        await Future.delayed(const Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 4));
         add(AIPlayerPlayingCard(card: state.currentPlayer.hand.first));
       }
     });
@@ -30,11 +31,8 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
       emit(state.copyWith(
         boardStatus: BoardStateStatus.currentPlayerMoved,
       ));
+      // await Future.delayed(Duration(seconds: 1));
       emit(state.addCardToPile(card: event.card));
-      // if(state.boardStatus != BoardStateStatus.playerWin && state.currentPlayer == state.players.last){
-      //   await Future.delayed(const Duration(seconds: 5));
-      //   add(CurrentPlayerPlayingCard(card: state.currentPlayer.hand.first));
-      // }
     });
     on<RestartGame>((event, emit) {
 
