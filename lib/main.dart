@@ -76,16 +76,24 @@ class MyApp extends StatelessWidget {
               ),
               useMaterial3: true,
             ).copyWith(
-              // Make buttons more fun.
-              filledButtonTheme: FilledButtonThemeData(
-                style: FilledButton.styleFrom(
-                  textStyle: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
+                // Make buttons more fun.
+
+                elevatedButtonTheme: ElevatedButtonThemeData(
+                    style: ElevatedButton.styleFrom(
+                  elevation: 5.0,
+                  backgroundColor: palette.redPen,
+                  foregroundColor: palette.trueBlack,
+                        shadowColor: palette.redPen,
+                        padding: const EdgeInsets.all(16.0),
+                      shape: BeveledRectangleBorder(
+                          borderRadius:BorderRadius.all(Radius.circular(8,))
+                      ),
+                      textStyle: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
+                  // shape:,
+                ))),
             routeInformationProvider: router.routeInformationProvider,
             routeInformationParser: router.routeInformationParser,
             routerDelegate: router.routerDelegate,

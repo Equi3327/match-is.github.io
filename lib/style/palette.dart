@@ -29,4 +29,5 @@ class Palette {
   Color get backgroundSettings => const Color(0xffbfc8e3);
   Color get trueWhite => const Color(0xffffffff);
   Color get trueBlack => const Color(0xff000000);
+  Color get board => const Color(0xff043927);
 }

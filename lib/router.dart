@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'game_internals/score.dart';
 import 'main_menu/main_menu_screen.dart';
 import 'play_session/play_session_screen.dart';
-import 'settings/settings_screen.dart';
 import 'style/my_transition.dart';
 import 'style/palette.dart';
 import 'win_game/win_game_screen.dart';
@@ -39,24 +38,25 @@ final router = GoRouter(
               pageBuilder: (context, state) {
                 final map = state.extra! as Map<String, dynamic>;
                 final score = map['score'] as Score;
+                final didPlayerWin = map['didPlayerWin'] as bool;
 
                 return buildMyTransition<void>(
                   key: const ValueKey('won'),
                   color: context.watch<Palette>().backgroundPlaySession,
                   child: WinGameScreen(
                     score: score,
-                    key: const Key('win game'),
+                    key: const Key('win game'), didPlayerWin: didPlayerWin,
                   ),
                 );
               },
             )
           ],
         ),
-        GoRoute(
-          path: 'settings',
-          builder: (context, state) =>
-              const SettingsScreen(key: Key('settings')),
-        ),
+        // GoRoute(
+        //   path: 'settings',
+        //   builder: (context, state) =>
+        //       const SettingsScreen(key: Key('settings')),
+        // ),
       ],
     ),
   ],

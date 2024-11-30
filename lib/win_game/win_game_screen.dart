@@ -10,10 +10,12 @@ import '../style/responsive_screen.dart';
 
 class WinGameScreen extends StatelessWidget {
   final Score score;
+  final bool didPlayerWin;
 
   const WinGameScreen({
     super.key,
     required this.score,
+    required this.didPlayerWin,
   });
 
   @override
@@ -28,27 +30,27 @@ class WinGameScreen extends StatelessWidget {
         squarishMainArea: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            gap,
-            const Center(
+            // gap,
+            Center(
               child: Text(
-                'You won!',
-                style: TextStyle(
+                'You ${didPlayerWin ? "won!":"lost!"}',
+                style: const TextStyle(
                   // fontFamily: 'Permanent Marker',
                   fontSize: 50,
                 ),
               ),
             ),
-            gap,
-            Center(
-              child: Text(
-                'Score: ${score.score}\n'
-                'Time: ${score.formattedTime}',
-                style: const TextStyle(
-                  // fontFamily: 'Permanent Marker',
-                  fontSize: 20,
-                ),
-              ),
-            ),
+            // gap,
+            // Center(
+            //   child: Text(
+            //     'Score: ${score.score}\n'
+            //     'Time: ${score.formattedTime}',
+            //     style: const TextStyle(
+            //       // fontFamily: 'Permanent Marker',
+            //       fontSize: 20,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
         rectangularMenuArea: MyButton(

@@ -20,21 +20,27 @@ class BoardWidget extends StatelessWidget {
             ),
           );
         }
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            PlayerHandWidget(
-              player: state.players.last,
-            ),
-            PlayingAreaWidget(
-              pile: state.pile,
-              currentPlayer: state.currentPlayer,
-            ),
-            PlayerHandWidget(
-              player: state.players.first,
-            ),
-          ],
+        if (state.boardStatus == BoardStateStatus.playerDraw) {
+          BlocProvider.of<BoardBloc>(context).add(RestartGame(state.players));
+        }
+        return Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            // mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              PlayerHandWidget(
+                player: state.players.last,
+              ),
+              PlayingAreaWidget(
+                pile: state.pile,
+                currentPlayer: state.currentPlayer,
+              ),
+              PlayerHandWidget(
+                player: state.players.first,
+              ),
+            ],
+          ),
         );
       },
     );

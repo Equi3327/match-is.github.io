@@ -8,12 +8,13 @@ import '../../style/palette.dart';
 import '../../game_internals/player.dart';
 
 class PlayingCardWidget extends StatelessWidget {
-  const PlayingCardWidget({super.key, required this.card, this.player});
+  const PlayingCardWidget({super.key, required this.card,  this.player, required this.show});
   static const double width = 64;
 
   static const double height = 89;
 
   final PlayingCard card;
+  final bool show;
 
   final Player? player;
   @override
@@ -25,14 +26,14 @@ class PlayingCardWidget extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
             image: AssetImage(
-                "assets/game_assets/${card.suit.internalRepresentation}.png")),
+                "assets/game_assets/${show == true ? card.suit.internalRepresentation : "card_background"}.png")),
         color: palette.trueWhite,
         border: Border.all(color: palette.ink),
         borderRadius: BorderRadius.circular(5),
       ),
     );
 
-    /// Cards that aren't in a player's hand are not draggable.
+    // /// Cards that aren't in a player's hand are not draggable.
     if (player == null) return cardWidget;
 
     return Draggable(

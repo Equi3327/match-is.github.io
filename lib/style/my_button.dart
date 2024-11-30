@@ -1,6 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'palette.dart';
 
 class MyButton extends StatefulWidget {
   final Widget child;
@@ -28,6 +31,7 @@ class _MyButtonState extends State<MyButton>
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.watch<Palette>();
     return MouseRegion(
       onEnter: (event) {
         _controller.repeat();
@@ -37,7 +41,8 @@ class _MyButtonState extends State<MyButton>
       },
       child: RotationTransition(
         turns: _controller.drive(const _MySineTween(0.005)),
-        child: FilledButton(
+        child: ElevatedButton(
+
           onPressed: widget.onPressed,
           child: widget.child,
         ),

@@ -20,6 +20,13 @@ class StartCelebrations extends GameEvent {
   List<Object?> get props => [champion];
 }
 
+// class RestartGame extends GameEvent {
+//   const RestartGame(this.players);
+//   final List<Player> players;
+//   @override
+//   List<Object?> get props => [players];
+// }
+
 class EndGame extends GameEvent {
   const EndGame();
 

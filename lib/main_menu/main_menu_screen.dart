@@ -21,7 +21,7 @@ class MainMenuScreen extends StatelessWidget {
     final audioController = context.watch<AudioController>();
 
     return Scaffold(
-      backgroundColor: palette.trueBlack,
+      backgroundColor: palette.trueWhite,
       body: ResponsiveScreen(
         squarishMainArea: Center(
           child: Transform.rotate(
@@ -53,32 +53,32 @@ class MainMenuScreen extends StatelessWidget {
               },
               child: const Text('Play'),
             ),
-            _gap,
-            MyButton(
-              onPressed: () => GoRouter.of(context).push('/settings'),
-              child: const Text('Settings'),
-            ),
-            _gap,
-            Padding(
-              padding: const EdgeInsets.only(top: 32),
-              child: ValueListenableBuilder<bool>(
-                valueListenable: settingsController.audioOn,
-                builder: (context, audioOn, child) {
-                  return IconButton(
-                    onPressed: () => settingsController.toggleAudioOn(),
-                    icon: Icon(audioOn ? Icons.volume_up : Icons.volume_off),
-                  );
-                },
-              ),
-            ),
-            _gap,
-            const Text('Music by Mr Smith'),
-            _gap,
+            // _gap,
+            // MyButton(
+            //   onPressed: () => GoRouter.of(context).push('/settings'),
+            //   child: const Text('Settings'),
+            // ),
+            // _gap,
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 32),
+            //   child: ValueListenableBuilder<bool>(
+            //     valueListenable: settingsController.audioOn,
+            //     builder: (context, audioOn, child) {
+            //       return IconButton(
+            //         onPressed: () => settingsController.toggleAudioOn(),
+            //         icon: Icon(audioOn ? Icons.volume_up : Icons.volume_off),
+            //       );
+            //     },
+            //   ),
+            // ),
+            // _gap,
+            // const Text('Music by Mr Smith'),
+            // _gap,
           ],
         ),
       ),
     );
   }
 
-  static const _gap = SizedBox(height: 10);
+  // static const _gap = SizedBox(height: 10);
 }

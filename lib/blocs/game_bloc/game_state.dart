@@ -1,13 +1,14 @@
 part of 'game_bloc.dart';
 
-const MAX_CARDS = 20;
+const int MAX_CARDS = 20;
 
-List<PlayingCard> DECK =
+List<PlayingCard> DECK =//[...List.generate(MAX_CARDS~/2, (index) => PlayingCard(CardSuit.spade)),...List.generate(MAX_CARDS~/2, (index) => PlayingCard(CardSuit.club)),];
     List.generate(MAX_CARDS, (index) => PlayingCard.random());
 
 enum GameStateStatus {
   initial,
   gameStarted,
+  // gameRestarted,
   playerWon,
   gameOver;
 }
@@ -32,12 +33,18 @@ class GameState extends Equatable {
       : gameStatus = GameStateStatus.gameStarted,
         champion = null;
 
+  // const GameState.restarted(this.players)
+  //     : gameStatus = GameStateStatus.gameRestarted,
+  //       champion = null;
+
+
   GameState copyWith({
     GameStateStatus? gameStatus,
+    Player? champion,
   }) {
     return GameState(
       players: players,
-      champion: champion,
+      champion: champion ?? this.champion,
       gameStatus: gameStatus ?? this.gameStatus,
     );
   }

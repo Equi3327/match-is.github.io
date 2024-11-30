@@ -21,6 +21,7 @@ class PlayingAreaWidget extends StatefulWidget {
 
 class _PlayingAreaWidgetState extends State<PlayingAreaWidget> {
   bool isHighlighted = false;
+  Offset lastElementOffset = Offset(0, 0);
 
   void _onDragLeave(PlayingCardDragData? data) {
     setState(() => isHighlighted = false);
@@ -33,79 +34,72 @@ class _PlayingAreaWidgetState extends State<PlayingAreaWidget> {
   }
 
   void _onDragAccept(DragTargetDetails<PlayingCardDragData> data) {
+    debugPrint("data :: ${data.offset}");
     BlocProvider.of<BoardBloc>(context)
         .add(CurrentPlayerPlayingCard(card: data.data.card));
+    // data.
+    lastElementOffset = data.offset;
     setState(() => isHighlighted = false);
   }
 
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
-    debugPrint("widget.pile length:: ${widget.pile.length}");
-    return LimitedBox(
-      maxHeight: 200,
-      child: AspectRatio(
-        aspectRatio: 1 / 1,
-        child: DragTarget<PlayingCardDragData>(
-          builder: (context, candidateData, rejectedData) => SizedBox(
-            height: 100,
-            child: Material(
-              color: isHighlighted ? palette.accept : palette.trueWhite,
-              shape: const CircleBorder(),
-              clipBehavior: Clip.hardEdge,
-              child: InkWell(
-                splashColor: palette.redPen,
-                // onTap: _onAreaTap,
-                child: _CardStack(widget.pile),
-              ),
-            ),
+    final size = MediaQuery.sizeOf(context);
+    return SizedBox(
+      width: size.width * 0.7,
+      height: size.height * 0.5,
+      child: DragTarget<PlayingCardDragData>(
+        builder: (context, candidateData, rejectedData) => PhysicalModel(
+          color: isHighlighted ? palette.accept : palette.board,
+          // shape: const StadiumBorder(),
+          borderRadius:const BorderRadius.all(Radius.circular(40)),
+          shadowColor:palette.trueBlack,
+          elevation: 5.0,
+          clipBehavior: Clip.hardEdge,
+          child: InkWell(
+            splashColor: palette.redPen,
+            // onTap: _onAreaTap,
+            child:
+            _CardStack(widget.pile,lastElementOffset),
           ),
-          onWillAcceptWithDetails: _onDragWillAccept,
-          onLeave: _onDragLeave,
-          onAcceptWithDetails: _onDragAccept,
         ),
+        onWillAcceptWithDetails: _onDragWillAccept,
+        onLeave: _onDragLeave,
+        onAcceptWithDetails: _onDragAccept,
       ),
     );
   }
 }
 
 class _CardStack extends StatelessWidget {
-  static const int _maxCards = 6;
 
-  static const _leftOffset = 10.0;
-
-  static const _topOffset = 5.0;
-
-  static const double _maxWidth =
-      _maxCards * _leftOffset + PlayingCardWidget.width;
-
-  static const _maxHeight = _maxCards * _topOffset + PlayingCardWidget.height;
+  static const _leftOffset = 15.0;
 
   final List<PlayingCard> cards;
+  final Offset lastElementOffset;
 
-  const _CardStack(this.cards);
+  const _CardStack(this.cards, this.lastElementOffset);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: _maxWidth,
-        height: _maxHeight,
-        child: Stack(
-          children: [
-            for (var i = max(0, cards.length - _maxCards);
-                i < cards.length;
-                i++)
-              Positioned(
-                top: i * _topOffset,
-                left: i * _leftOffset,
-                child: PlayingCardWidget(
-                  card: cards[i],
-                ),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        for (var i = 0;
+            i < cards.length;
+            i++)
+          Align(
+            alignment: Alignment.center,
+            child: Transform.translate(
+              offset: Offset((-(cards.length - i-1) * 16.0)+150, 0),
+              child: PlayingCardWidget(
+                card: cards[i],
+                show: true,
               ),
-          ],
-        ),
-      ),
+            ),
+          ),
+      ],
     );
   }
 }

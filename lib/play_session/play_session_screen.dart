@@ -31,7 +31,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
       listener: (context, state) {
         if (state.gameStatus == GameStateStatus.gameOver) {
           final score = Score(1, 1, const Duration(milliseconds: 6000));
-          GoRouter.of(context).go('/play/won', extra: {'score': score});
+          GoRouter.of(context).go('/play/won', extra: {'score': score, "didPlayerWin": state.players.first == state.champion});
         }
       },
       builder: (context, state) {
@@ -50,11 +50,12 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
             return IgnorePointer(
               ignoring: duringCelebration,
               child: Scaffold(
-                backgroundColor: palette.backgroundPlaySession,
+                backgroundColor: palette.trueWhite,
                 body: Stack(
                   children: [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      // crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         // Align(
                         //   alignment: Alignment.centerRight,
@@ -66,13 +67,13 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                         //     ),
                         //   ),
                         // ),
-                        const Spacer(),
+                        // const Spacer(),
                         BlocProvider(
                           create: (context) =>
                               BoardBloc(players: state.players),
                           child: const BoardWidget(),
                         ),
-                        const Spacer(),
+                        // const Spacer(),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: MyButton(

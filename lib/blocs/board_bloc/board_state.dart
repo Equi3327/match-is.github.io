@@ -4,6 +4,7 @@ enum BoardStateStatus {
   initial,
   currentPlayerMoved,
   turnChanged,
+  playerDraw,
   playerWin;
 }
 
@@ -40,6 +41,7 @@ class BoardState extends Equatable {
 
   BoardState addCardToPile({required PlayingCard card}) {
     currentPlayer.removeCard(card);
+
     if (pile.isNotEmpty && pile.last == card) {
       return BoardState(
         players: players,
@@ -49,6 +51,14 @@ class BoardState extends Equatable {
       );
     }
     int nextPlayerIndex = (players.indexOf(currentPlayer) + 1) % players.length;
+    if (players.every((player)=> player.hand.isEmpty)) {
+      return BoardState(
+        players: players,
+        currentPlayer: players[nextPlayerIndex],
+        boardStatus: BoardStateStatus.playerDraw,
+        pile: [...pile, card],
+      );
+    }
     return BoardState(
       players: players,
       currentPlayer: players[nextPlayerIndex],
