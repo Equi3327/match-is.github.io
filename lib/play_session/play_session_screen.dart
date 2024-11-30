@@ -56,19 +56,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                     BlocProvider(
                       create: (context) =>
                           BoardBloc(players: state.players),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const BoardWidget(),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: MyButton(
-                              onPressed: () => GoRouter.of(context).go('/'),
-                              child: const Text('Back'),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: const BoardWidget(),
                     ),
                     SizedBox.expand(
                       child: Visibility(

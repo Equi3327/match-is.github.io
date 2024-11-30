@@ -34,49 +34,62 @@ class PlayingCardImageViewWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
     );
-
-    if (player == null) return cardWidget;
-    return Draggable(
-      feedback: Transform.rotate(
-        angle: 0.1,
-        child: cardWidget,
-      ),
-      data: PlayingCardDragData(card, player!),
-      childWhenDragging: Opacity(
-        opacity: 0.5,
-        child: Container(
-          width: width + 8 * (player!.hand.length - 2),
-          height: height,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(
-                    "assets/game_assets/${show == true ? card.suit.internalRepresentation : "card_background_${player!.hand.length - 1}"}.png")),
-            color: palette.trueWhite,
-            border: Border.all(color: palette.ink),
-            borderRadius: BorderRadius.circular(5),
-          ),
-        ),
-      ),
-      onDragStarted: () {
-        final audioController = context.read<AudioController>();
-        audioController.playSfx(SfxType.huhsh);
-      },
-      onDragEnd: (details) {
-        final audioController = context.read<AudioController>();
-        audioController.playSfx(SfxType.wssh);
-      },
-      child: Container(
-        width: width + 8 * (player!.hand.length - 1),
-        height: height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(
-                  "assets/game_assets/${show == true ? card.suit.internalRepresentation : "card_background_${player!.hand.length}"}.png")),
-          color: palette.trueWhite,
-          border: Border.all(color: palette.ink),
-          borderRadius: BorderRadius.circular(5),
-        ),
+    final cardWidgetNew = Container(
+      width: width + 8 * (player!.hand.length - 1),
+      height: height,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage(
+                "assets/game_assets/${show == true ? card.suit.internalRepresentation : "card_background_${player!.hand.length}"}.png")),
+        color: palette.trueWhite,
+        border: Border.all(color: palette.ink),
+        borderRadius: BorderRadius.circular(5),
       ),
     );
+
+    // if (player == null) return cardWidget;
+    return cardWidgetNew;
+    // return Draggable(
+    //   feedback: Transform.rotate(
+    //     angle: 0.1,
+    //     child: cardWidget,
+    //   ),
+    //   data: PlayingCardDragData(card, player!),
+    //   childWhenDragging: Opacity(
+    //     opacity: 0.5,
+    //     child: Container(
+    //       width: width + 8 * (player!.hand.length - 2),
+    //       height: height,
+    //       decoration: BoxDecoration(
+    //         image: DecorationImage(
+    //             image: AssetImage(
+    //                 "assets/game_assets/${show == true ? card.suit.internalRepresentation : "card_background_${player!.hand.length - 1}"}.png")),
+    //         color: palette.trueWhite,
+    //         border: Border.all(color: palette.ink),
+    //         borderRadius: BorderRadius.circular(5),
+    //       ),
+    //     ),
+    //   ),
+    //   onDragStarted: () {
+    //     final audioController = context.read<AudioController>();
+    //     audioController.playSfx(SfxType.huhsh);
+    //   },
+    //   onDragEnd: (details) {
+    //     final audioController = context.read<AudioController>();
+    //     audioController.playSfx(SfxType.wssh);
+    //   },
+    //   child: Container(
+    //     width: width + 8 * (player!.hand.length - 1),
+    //     height: height,
+    //     decoration: BoxDecoration(
+    //       image: DecorationImage(
+    //           image: AssetImage(
+    //               "assets/game_assets/${show == true ? card.suit.internalRepresentation : "card_background_${player!.hand.length}"}.png")),
+    //       color: palette.trueWhite,
+    //       border: Border.all(color: palette.ink),
+    //       borderRadius: BorderRadius.circular(5),
+    //     ),
+    //   ),
+    // );
   }
 }

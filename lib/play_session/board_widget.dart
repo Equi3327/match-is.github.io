@@ -24,31 +24,49 @@ class BoardWidget extends StatelessWidget {
         if (state.boardStatus == BoardStateStatus.playerDraw) {
           BlocProvider.of<BoardBloc>(context).add(RestartGame(state.players));
         }
-        return Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            // mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              PlayerHandWidget(
-                player: state.players.last,
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                // mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  PlayerHandWidget(
+                    player: state.players.last,
+                  ),
+                  PlayingAreaWidget(
+                    pile: state.pile,
+                    currentPlayer: state.currentPlayer,
+                  ),
+                  PlayerHandWidget(
+                    player: state.players.first,
+                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: MyButton(
+                  //     onPressed: () => BlocProvider.of<BoardBloc>(context).add(CurrentPlayerPlayingCard(card: null)),
+                  //     child: const Text('Play'),
+                  //   ),
+                  // ),
+                ],
               ),
-              PlayingAreaWidget(
-                pile: state.pile,
-                currentPlayer: state.currentPlayer,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MyButton(
+                onPressed: state.currentPlayer != state.players.first
+                    ? null
+                    : () => BlocProvider.of<BoardBloc>(context).add(
+                          CurrentPlayerPlayingCard(
+                            card: state.currentPlayer.hand.first,
+                          ),
+                        ),
+                child: const Text('Play Card'),
               ),
-              PlayerHandWidget(
-                player: state.players.first,
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: MyButton(
-              //     onPressed: () => BlocProvider.of<BoardBloc>(context).add(CurrentPlayerPlayingCard(card: null)),
-              //     child: const Text('Play'),
-              //   ),
-              // ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
