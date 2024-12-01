@@ -47,9 +47,19 @@ class PlayerHandWidget extends StatelessWidget {
             card: player.hand.first,
             show: false,
           ),
-          Align(
-            alignment: Alignment.lerp(Alignment.topCenter, Alignment.topRight, 0.5)!,
-            child: currentPlayer.playerName == player.playerName ? Text("${player.playerName == GamePlayer.player2 ? "AI's":"Your"} turn"):const SizedBox.shrink(),
+          LayoutBuilder(
+
+            builder: (BuildContext context, BoxConstraints constraints) {
+              // if(constraints.w)
+              return Align(
+                alignment: Alignment.lerp(Alignment.topCenter, Alignment.topRight, constraints.maxWidth < 600 ? 0.9: 0.5)!,
+                child: currentPlayer.playerName == player.playerName ? Text("${player.playerName == GamePlayer.player2 ? "AI's":"Your"} turn"):const SizedBox.shrink(),
+              );
+            },
+            // child: Align(
+            //   alignment: Alignment.lerp(Alignment.topCenter, Alignment.topRight, 0.5)!,
+            //   child: currentPlayer.playerName == player.playerName ? Text("${player.playerName == GamePlayer.player2 ? "AI's":"Your"} turn"):const SizedBox.shrink(),
+            // ),
           )
         ],
       ),

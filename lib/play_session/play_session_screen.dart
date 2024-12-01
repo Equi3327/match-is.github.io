@@ -23,12 +23,6 @@ class PlaySessionScreen extends StatefulWidget {
 class _PlaySessionScreenState extends State<PlaySessionScreen> {
   static final _log = Logger('PlaySessionScreen');
 
-  @override
-  void initState() {
-    super.initState();
-    _preloadImages();
-  }
-
   Future<void> _preloadImages() async {
     await Future.wait([
       precacheImage(AssetImage('assets/game_assets/card_background.png'), context),
@@ -48,6 +42,13 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
       precacheImage(AssetImage('assets/game_assets/no_cards.png'), context),
       precacheImage(AssetImage('assets/game_assets/spade.png'), context),
     ]);
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    _preloadImages();
   }
 
   @override

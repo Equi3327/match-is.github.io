@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,8 +48,7 @@ class _PlayingAreaWidgetState extends State<PlayingAreaWidget> {
     return SizedBox(
       width: size.width * 0.7,
       height: size.height * 0.5,
-      child:
-      PhysicalModel(
+      child: PhysicalModel(
         color: isHighlighted ? palette.accept : palette.board,
         // shape: const StadiumBorder(),
         borderRadius: const BorderRadius.all(Radius.circular(40)),
@@ -97,15 +95,31 @@ class _CardStack extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         for (var i = 0; i < cards.length; i++)
-          Align(
-            alignment: Alignment.center,
-            child: Transform.translate(
-              offset: Offset((-(cards.length - i - 1) * 16.0) + 150, 0),
-              child: PlayingCardWidget(
-                card: cards[i],
-                show: true,
-              ),
-            ),
+          LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return Align(
+                alignment: Alignment.center,
+                child: Transform.translate(
+                  offset: constraints.maxWidth > 600
+                      ? Offset((-(cards.length - i - 1) * 16.0) + 150, 0)
+                      : Offset((-(cards.length - i - 1) * 12.0) + 90, (-(cards.length - i - 1) * 12.0) + 90),
+                  child: PlayingCardWidget(
+                    card: cards[i],
+                    show: true,
+                  ),
+                ),
+              );
+            },
+            // child: Align(
+            //   alignment: Alignment.center,
+            //   child: Transform.translate(
+            //     offset: Offset((-(cards.length - i - 1) * 16.0) + 150, 0),
+            //     child: PlayingCardWidget(
+            //       card: cards[i],
+            //       show: true,
+            //     ),
+            //   ),
+            // ),
           ),
       ],
     );

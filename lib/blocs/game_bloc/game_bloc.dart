@@ -16,7 +16,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc() : super(GameState.initial()) {
     on<PlayGame>((event, emit) {
       /// TODO Add logic to add second player
-      DECK.shuffle();
+      // DECK.shuffle();
       final secondPlayer = Player(playerName: GamePlayer.player2);
       event.player.hand.addAll(DECK.sublist(0, MAX_CARDS ~/ 2));
       secondPlayer.hand.addAll(DECK.sublist(MAX_CARDS ~/ 2, MAX_CARDS));
