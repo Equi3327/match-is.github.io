@@ -3,7 +3,7 @@ name: Build and Deploy Flutter Web
 on:
   push:
     branches:
-      - main # Replace with your branch name
+      - one-button-jam-2014 # Replace with your branch name
 
 jobs:
   build:
