@@ -58,6 +58,7 @@ class BoardWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: MyButton(
+                unFocusNode: state.boardStatus == BoardStateStatus.playerWin,
                 onPressed: state.currentPlayer != state.players.first
                     ? null
                     : () => BlocProvider.of<BoardBloc>(context).add(

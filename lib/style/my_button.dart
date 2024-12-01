@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:match_is/blocs/board_bloc/board_bloc.dart';
 
 import 'palette.dart';
 
@@ -10,7 +12,9 @@ class MyButton extends StatefulWidget {
 
   final VoidCallback? onPressed;
 
-  const MyButton({super.key, required this.child, this.onPressed});
+  final bool? unFocusNode;
+
+  const MyButton({super.key, required this.child, this.onPressed, this.unFocusNode});
 
   @override
   State<MyButton> createState() => _MyButtonState();
@@ -39,7 +43,9 @@ class _MyButtonState extends State<MyButton>
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.watch<Palette>();
+    if(widget.unFocusNode == true) {
+      _focusNode.unfocus();
+    }
     return MouseRegion(
       onEnter: (event) {
         _controller.repeat();
@@ -52,8 +58,9 @@ class _MyButtonState extends State<MyButton>
         child: KeyboardListener(
           focusNode: _focusNode,
           onKeyEvent: (keyEvent){
-            debugPrint("keyEvent.character ::${keyEvent.character}");
-            widget.onPressed!();
+            if(keyEvent is KeyDownEvent){
+              widget.onPressed!();
+            }
           },
           child: ElevatedButton(
             onPressed: widget.onPressed,
