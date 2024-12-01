@@ -24,6 +24,33 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
   static final _log = Logger('PlaySessionScreen');
 
   @override
+  void initState() {
+    super.initState();
+    _preloadImages();
+  }
+
+  Future<void> _preloadImages() async {
+    await Future.wait([
+      precacheImage(AssetImage('assets/game_assets/card_background.png'), context),
+      precacheImage(AssetImage('assets/game_assets/card_background_1.png'), context),
+      precacheImage(AssetImage('assets/game_assets/card_background_2.png'), context),
+      precacheImage(AssetImage('assets/game_assets/card_background_3.png'), context),
+      precacheImage(AssetImage('assets/game_assets/card_background_4.png'), context),
+      precacheImage(AssetImage('assets/game_assets/card_background_5.png'), context),
+      precacheImage(AssetImage('assets/game_assets/card_background_6.png'), context),
+      precacheImage(AssetImage('assets/game_assets/card_background_7.png'), context),precacheImage(AssetImage('assets/game_assets/card_background.png'), context),
+      precacheImage(AssetImage('assets/game_assets/card_background_8.png'), context),
+      precacheImage(AssetImage('assets/game_assets/card_background_9.png'), context),
+      precacheImage(AssetImage('assets/game_assets/card_background_10.png'), context),
+      precacheImage(AssetImage('assets/game_assets/club.png'), context),
+      precacheImage(AssetImage('assets/game_assets/diamond.png'), context),
+      precacheImage(AssetImage('assets/game_assets/heart.png'), context),
+      precacheImage(AssetImage('assets/game_assets/no_cards.png'), context),
+      precacheImage(AssetImage('assets/game_assets/spade.png'), context),
+    ]);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
 
