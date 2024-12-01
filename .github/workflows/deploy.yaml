@@ -1,4 +1,4 @@
-name: Build and Deploy Flutter Web
+name: Build and Deploy Flutter Web To Github Pages
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: stable
+          channel: stable
 
       # Step 3: Install dependencies
       - name: Install dependencies
