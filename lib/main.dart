@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
           final palette = context.watch<Palette>();
 
           return MaterialApp.router(
-            title: 'Match Iss!',
+            title: 'Match Isss!',
             theme: ThemeData.from(
               colorScheme: ColorScheme.fromSeed(
                 seedColor: palette.trueBlack,
