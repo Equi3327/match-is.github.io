@@ -27,7 +27,7 @@ jobs:
 
       # Step 4: Build the web app
       - name: Build Flutter Web
-        run: flutter build web --release
+        run: flutter build web --release --base-href /match-is.github.io/
 
       # Step 5: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
